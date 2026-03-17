@@ -15,7 +15,6 @@ interface CartStore {
     removeFromCart: (id: string) => void;
     updateQuantity: (id: string, quantity: number) => void;
     clearCart: () => void;
-    get totalItems(): number;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -50,9 +49,6 @@ export const useCartStore = create<CartStore>()(
                 });
             },
             clearCart: () => set({ items: [] }),
-            get totalItems() {
-                return get().items.reduce((total, item) => total + item.quantity, 0);
-            },
         }),
         {
             name: 'medai-cart-storage', // Lưu vào localStorage để không mất giỏ hàng khi F5

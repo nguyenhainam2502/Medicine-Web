@@ -5,8 +5,11 @@ import { useState, useEffect } from 'react';
 
 export default function FloatingCart() {
     const [mounted, setMounted] = useState(false);
-    const { items, totalItems, removeFromCart, updateQuantity, clearCart } = useCartStore();
+    const { items, removeFromCart, updateQuantity, clearCart } = useCartStore();
     const [isOpen, setIsOpen] = useState(false);
+    
+    // Tính toán lại tổng số thuốc mỗi khi items thay đổi (Zustand reactive)
+    const totalItems = items.reduce((total, item) => total + item.quantity, 0);
 
     // Tránh lỗi Hydration mismatch giữa Server và Client do dùng LocalStorage
     useEffect(() => {
