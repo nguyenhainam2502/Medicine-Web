@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import AddToOrderButton from '@/components/AddToOrderButton';
 
 export const revalidate = 0;
 
@@ -62,10 +63,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                         <p className="text-lg text-slate-600 leading-relaxed font-medium mb-8">{product.description}</p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="flex items-center justify-center gap-2 rounded-xl h-14 px-8 bg-[#2b8cee] text-white text-base font-bold shadow-xl shadow-[#2b8cee]/30 hover:scale-[1.02] transition-transform">
-                                <span className="material-symbols-outlined">add_shopping_cart</span>
-                                Thêm vào toa rổ
-                            </button>
+                            <AddToOrderButton productId={product.id} productName={product.name} />
                             <button className="flex items-center justify-center gap-2 rounded-xl h-14 px-8 border-2 border-slate-200 text-slate-700 text-base font-bold hover:bg-slate-50 transition-colors">
                                 <span className="material-symbols-outlined">share</span>
                                 Chia sẻ thuốc
