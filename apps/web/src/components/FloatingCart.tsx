@@ -2,14 +2,54 @@
 
 import { useCartStore } from '@/store/useCartStore';
 import { useState, useEffect } from 'react';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function FloatingCart() {
     const [mounted, setMounted] = useState(false);
     const { items, removeFromCart, updateQuantity, clearCart } = useCartStore();
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [toast, setToast] = useState<{ type: 'success' | 'error', msg: string } | null>(null);
     
     // Tính toán lại tổng số thuốc mỗi khi items thay đổi (Zustand reactive)
     const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+
+    const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const handleCheckout = async () => {
+        setLoading(true);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const payload = items.map(item => ({
+                user_id: user.id,
+                product_id: item.id,
+                product_name: item.name,
+                quantity: item.quantity,
+                status: 'pending',
+            }));
+
+            const { error } = await supabase.from('orders').insert(payload);
+            if (error) throw error;
+
+            clearCart();
+            setIsOpen(false);
+            window.location.href = '/orders'; // Chuyển sang xem đơn
+        } catch (error) {
+            console.error('Checkout error:', error);
+            setToast({ type: 'error', msg: 'Có lỗi khi đặt hàng, vui lòng thử lại.' });
+            setTimeout(() => setToast(null), 3000);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Tránh lỗi Hydration mismatch giữa Server và Client do dùng LocalStorage
     useEffect(() => {
@@ -39,10 +79,16 @@ export default function FloatingCart() {
                             <span className="material-symbols-outlined">medication</span>
                             <h3 className="font-bold text-lg">Giỏ thuốc của bạn</h3>
                         </div>
-                        <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors">
+                        <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors disabled:opacity-50" disabled={loading}>
                             <span className="material-symbols-outlined">close</span>
                         </button>
                     </div>
+
+                    {toast && (
+                        <div className="bg-red-500 text-white text-xs font-bold px-4 py-2 text-center">
+                            {toast.msg}
+                        </div>
+                    )}
 
                     <div className="max-h-[60vh] overflow-y-auto p-2">
                         {items.map((item) => (
@@ -78,12 +124,21 @@ export default function FloatingCart() {
 
                     <div className="p-4 border-t border-slate-100 bg-slate-50">
                         <div className="flex gap-2">
-                            <button onClick={clearCart} className="px-4 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors text-sm">
+                            <button onClick={clearCart} disabled={loading} className="px-4 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-200 transition-colors text-sm disabled:opacity-50">
                                 Xóa hết
                             </button>
-                            <button className="flex-1 bg-[#2b8cee] text-white px-4 py-3 rounded-xl font-bold hover:bg-[#2070c5] transition-colors shadow-lg shadow-[#2b8cee]/20 flex items-center justify-center gap-2">
-                                Chốt đơn
-                                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            <button onClick={handleCheckout} disabled={loading} className="flex-1 bg-[#2b8cee] text-white px-4 py-3 rounded-xl font-bold hover:bg-[#2070c5] transition-colors shadow-lg shadow-[#2b8cee]/20 flex items-center justify-center gap-2 disabled:opacity-70">
+                                {loading ? (
+                                    <>
+                                        <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                                        Đang xử lý...
+                                    </>
+                                ) : (
+                                    <>
+                                        Chốt đơn
+                                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                    </>
+                                )}
                             </button>
                         </div>
                     </div>
