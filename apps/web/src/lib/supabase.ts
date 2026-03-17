@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 import { createServerClient as createSSRServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { Database } from '@/types/database.types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 // Client-side client (không có session - dùng để đọc public data)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 // Admin client dùng service role key - bypass RLS hoàn toàn (chỉ dùng server-side)
 export function createAdminClient() {

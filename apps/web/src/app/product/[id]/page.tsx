@@ -1,14 +1,14 @@
 import { supabase } from '@/lib/supabase';
 import AddToOrderButton from '@/components/AddToOrderButton';
 
-export const revalidate = 0;
+export const revalidate = 3600; // Cache trang này 1 TIẾNG, giúp Server gánh tải 10k CCU nhẹ nhàng.
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
 
     // Sửa lỗi PGROUTINE .single() bằng cách lấy mảng và lấy phần tử đầu tiên
     const { data: products } = await supabase.from('products').select('*, categories(name)').eq('id', id);
-    const product = products?.[0];
+    const product = products?.[0] as any;
 
     if (!product) {
         return (
@@ -63,7 +63,12 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                         <p className="text-lg text-slate-600 leading-relaxed font-medium mb-8">{product.description}</p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <AddToOrderButton productId={product.id} productName={product.name} />
+                            <AddToOrderButton 
+                                productId={product.id} 
+                                productName={product.name} 
+                                imageUrl={product.image_url} 
+                                category={product.categories?.name} 
+                            />
                             <button className="flex items-center justify-center gap-2 rounded-xl h-14 px-8 border-2 border-slate-200 text-slate-700 text-base font-bold hover:bg-slate-50 transition-colors">
                                 <span className="material-symbols-outlined">share</span>
                                 Chia sẻ thuốc

@@ -2,17 +2,23 @@ import { supabase } from '@/lib/supabase';
 
 export const revalidate = 0;
 
-export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ q?: string; category?: string }> }) {
+export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ q?: string; category?: string; page?: string }> }) {
   const params = await searchParams;
   const query = params.q || '';
   const categoryFilter = params.category || '';
+  const page = parseInt(params.page || '1', 10);
+  const limit = 12; // 12 sản phẩm mỗi trang
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
 
   const { data: categories } = await supabase.from('categories').select('*').order('name');
 
-  let q = supabase.from('products').select('*, categories(name)').order('name');
+  let q = supabase.from('products').select('*, categories(name)', { count: 'exact' }).order('name');
   if (query) q = q.ilike('name', `%${query}%`);
   if (categoryFilter) q = q.eq('category_id', categoryFilter);
-  const { data: products } = await q;
+  
+  const { data: products, count } = await q.range(from, to);
+  const totalPages = Math.ceil((count || 0) / limit);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-10">
@@ -26,7 +32,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
           <span className="text-[#2b8cee] font-bold">Toàn bộ thuốc</span>
         </nav>
         <h1 className="text-4xl font-black text-slate-900">Toàn bộ Thuốc</h1>
-        <p className="text-slate-500 mt-2">{products?.length ?? 0} sản phẩm trong hệ thống</p>
+        <p className="text-slate-500 mt-2">{count || 0} sản phẩm trong hệ thống {page > 1 && `(Trang ${page})`}</p>
       </div>
 
       {/* Search + Filter */}
@@ -83,6 +89,35 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-16 pb-8">
+          {page > 1 && (
+            <a 
+              href={`/products?q=${encodeURIComponent(query)}&category=${categoryFilter}&page=${page - 1}`}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 text-slate-700 font-bold hover:border-[#2b8cee] hover:text-[#2b8cee] transition-colors"
+            >
+              <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+              Trang trước
+            </a>
+          )}
+          
+          <div className="px-6 py-3 rounded-xl bg-slate-100 text-slate-600 font-medium">
+            Trang <strong className="text-slate-900">{page}</strong> / {totalPages}
+          </div>
+
+          {page < totalPages && (
+            <a 
+              href={`/products?q=${encodeURIComponent(query)}&category=${categoryFilter}&page=${page + 1}`}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 text-slate-700 font-bold hover:border-[#2b8cee] hover:text-[#2b8cee] transition-colors"
+            >
+              Trang sau
+              <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+            </a>
+          )}
         </div>
       )}
     </div>
