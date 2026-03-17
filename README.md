@@ -83,9 +83,9 @@ Medicine-Web/
 
 | Variable | Description | Public? |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | ✅ Yes |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (read-only) | ✅ Yes |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role key | ❌ **Secret** |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |  Yes |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (read-only) |  Yes |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key |  **Secret** |
 
 ##  License
 
