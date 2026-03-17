@@ -1,0 +1,36 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment - NEVER commit these
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc
+.DS_Store
+*.pem
+.vercel
+
+# Supabase temp
+supabase/.temp/
+
+# AI Agent config - not needed for users
+.agent/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
