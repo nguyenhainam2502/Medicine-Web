@@ -1,14 +1,14 @@
-# 💊 MedAI Pro — Nền tảng Tra cứu Thuốc Thông minh
+# 💊 MedAI Pro — Smart Medicine Reference Platform
 
-Ứng dụng web tra cứu thuốc, dược phẩm và tin tức y tế được xây dựng với **Next.js 16** và **Supabase**.
+A web application for searching medicines, pharmaceuticals, and medical news, built with **Next.js 16** and **Supabase**.
 
-## ✨ Tính năng
+## ✨ Features
 
-- 🔍 **Tra cứu thuốc** — Tìm kiếm theo tên, danh mục chuyên khoa
-- 📰 **Tin tức Y tế** — Cập nhật thông tin y khoa mới nhất
-- 👤 **Xác thực người dùng** — Đăng ký / đăng nhập (Supabase Auth)
-- 🛡️ **Admin Portal** — Quản lý thuốc, danh mục, tin tức
-- 🤖 **Trợ lý AI** — Gợi ý thuốc theo triệu chứng
+- 🔍 **Medicine Search** — Search by name, specialty category
+- 📰 **Medical News** — Stay updated with the latest medical information
+- 👤 **User Authentication** — Sign up / Sign in (Supabase Auth)
+- 🛡️ **Admin Portal** — Manage medicines, categories, and news
+- 🤖 **AI Assistant** — Medicine suggestions based on symptoms
 
 ## 🛠️ Tech Stack
 
@@ -20,27 +20,32 @@
 | Auth | Supabase Auth |
 | Deploy | Netlify / Vercel |
 
-## 🚀 Chạy local
+## 🚀 Getting Started
 
-### 1. Clone & cài đặt
+### 1. Clone & Install
+
 ```bash
 git clone https://github.com/nguyenhainam2502/Medicine-Web.git
 cd Medicine-Web
 npm install
 ```
 
-### 2. Cấu hình môi trường
-Tạo file `apps/web/.env.local`:
+### 2. Configure Environment
+
+Create the file `apps/web/.env.local`:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-> ⚠️ Lấy các key này từ **Supabase Dashboard → Settings → API**
+> ⚠️ Get these keys from **Supabase Dashboard → Settings → API**
 
-### 3. Khởi tạo Database
-Chạy các file SQL trong thư mục `supabase/` theo thứ tự:
+### 3. Initialize Database
+
+Run the SQL files in the `supabase/` directory in order:
+
 ```
 1. migrations/20260304071402_init_core_tables.sql
 2. admin_setup.sql
@@ -48,15 +53,16 @@ Chạy các file SQL trong thư mục `supabase/` theo thứ tự:
 4. add_news_table.sql
 ```
 
-### 4. Chạy dev server
+### 4. Start Dev Server
+
 ```bash
 cd apps/web
 npm run dev
 ```
 
-Mở [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000)
 
-## 📁 Cấu trúc Project
+## 📁 Project Structure
 
 ```
 Medicine-Web/
@@ -65,9 +71,9 @@ Medicine-Web/
 │       └── src/
 │           ├── app/
 │           │   ├── admin/    # Admin portal
-│           │   ├── news/     # Tin tức y tế
-│           │   ├── products/ # Danh sách thuốc
-│           │   └── profile/  # Trang cá nhân
+│           │   ├── news/     # Medical news
+│           │   ├── products/ # Medicine listings
+│           │   └── profile/  # User profile
 │           ├── components/   # React components
 │           └── lib/          # Supabase client
 └── supabase/                 # Database migrations & SQL
@@ -75,11 +81,11 @@ Medicine-Web/
 
 ## 🔐 Environment Variables
 
-| Variable | Mô tả | Có thể public? |
-|----------|-------|----------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | URL Supabase project | ✅ Có |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (read-only) | ✅ Có |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role key | ❌ **Bí mật** |
+| Variable | Description | Public? |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | ✅ Yes |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (read-only) | ✅ Yes |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key | ❌ **Secret** |
 
 ## 📄 License
 
