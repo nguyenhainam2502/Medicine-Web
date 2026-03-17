@@ -40,6 +40,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         Quản lý Tin Tức
                     </a>
 
+                    <a href="/admin/orders" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors font-medium text-sm">
+                        <span className="material-symbols-outlined text-[20px]">receipt_long</span>
+                        Quản lý Đơn hàng
+                    </a>
+
                     <div className="pt-4">
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 pb-2">Xem trước</p>
                         <a href="/" target="_blank" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors font-medium text-sm">

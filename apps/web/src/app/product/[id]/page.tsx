@@ -73,58 +73,52 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                 </div>
 
                 {/* Product Details Grid */}
-                <div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Left Column */}
-                    <div className="space-y-8">
-                        {/* Usage */}
-                        <div className="group bg-green-50/50 rounded-2xl p-6 border border-green-100 hover:shadow-md transition-all">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-2xl">healing</span>
-                                </div>
-                                <h3 className="text-green-800 font-bold text-xl">Công dụng điều trị</h3>
+                <div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Usage */}
+                    <div className="bg-green-50/50 rounded-2xl p-6 border border-green-100 hover:shadow-md transition-all flex flex-col">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0">
+                                <span className="material-symbols-outlined text-2xl">healing</span>
                             </div>
-                            <p className="text-green-900/80 leading-relaxed font-medium">{product.usage || 'Chưa cập nhật dữ liệu dược lý.'}</p>
+                            <h3 className="text-green-800 font-bold text-xl">Công dụng điều trị</h3>
                         </div>
-
-                        {/* Dosage */}
-                        <div className="group bg-[#2b8cee]/5 rounded-2xl p-6 border border-[#2b8cee]/10 hover:shadow-md transition-all">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-[#2b8cee]/10 text-[#2b8cee] flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-2xl">schedule</span>
-                                </div>
-                                <h3 className="text-[#2b8cee] font-bold text-xl">Liều dùng & Định lượng</h3>
-                            </div>
-                            <p className="text-slate-700 leading-relaxed font-medium">{product.dosage || 'Vui lòng tham khảo ý kiến bác sĩ.'}</p>
-                        </div>
+                        <p className="text-green-900/80 leading-relaxed font-medium">{product.usage || 'Chưa cập nhật dữ liệu dược lý.'}</p>
                     </div>
 
-                    {/* Right Column */}
-                    <div className="space-y-8">
-                        {/* Side Effects */}
-                        <div className="group bg-orange-50/50 rounded-2xl p-6 border border-orange-100 hover:shadow-md transition-all">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-2xl">sick</span>
-                                </div>
-                                <h3 className="text-orange-800 font-bold text-xl">Tác dụng phụ (ADR)</h3>
+                    {/* Side Effects */}
+                    <div className="bg-orange-50/50 rounded-2xl p-6 border border-orange-100 hover:shadow-md transition-all flex flex-col">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0">
+                                <span className="material-symbols-outlined text-2xl">sick</span>
                             </div>
-                            <p className="text-orange-900/80 leading-relaxed font-medium">{product.side_effect || 'Chưa ghi nhận phản ứng phụ nghiêm trọng.'}</p>
+                            <h3 className="text-orange-800 font-bold text-xl">Tác dụng phụ (ADR)</h3>
                         </div>
+                        <p className="text-orange-900/80 leading-relaxed font-medium">{product.side_effect || 'Chưa ghi nhận phản ứng phụ nghiêm trọng.'}</p>
+                    </div>
 
-                        {/* Warning */}
-                        <div className="group bg-red-50/50 rounded-2xl p-6 border border-red-200 hover:shadow-md transition-all relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"></div>
-                            <div className="flex items-center gap-3 mb-4 relative z-10">
-                                <div className="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-2xl">warning</span>
-                                </div>
-                                <h3 className="text-red-800 font-bold text-xl">Cảnh báo Y Khoa</h3>
+                    {/* Dosage */}
+                    <div className="bg-[#2b8cee]/5 rounded-2xl p-6 border border-[#2b8cee]/10 hover:shadow-md transition-all flex flex-col">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-[#2b8cee]/10 text-[#2b8cee] flex items-center justify-center flex-shrink-0">
+                                <span className="material-symbols-outlined text-2xl">schedule</span>
                             </div>
-                            <p className="text-red-900 leading-relaxed font-medium relative z-10">
-                                {product.warning || 'Không có cảnh báo đặc biệt. Tránh xa tầm tay trẻ em.'}
-                            </p>
+                            <h3 className="text-[#2b8cee] font-bold text-xl">Liều dùng & Định lượng</h3>
                         </div>
+                        <p className="text-slate-700 leading-relaxed font-medium">{product.dosage || 'Vui lòng tham khảo ý kiến bác sĩ.'}</p>
+                    </div>
+
+                    {/* Warning */}
+                    <div className="bg-red-50/50 rounded-2xl p-6 border border-red-200 hover:shadow-md transition-all relative overflow-hidden flex flex-col">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"></div>
+                        <div className="flex items-center gap-3 mb-4 relative z-10">
+                            <div className="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                                <span className="material-symbols-outlined text-2xl">warning</span>
+                            </div>
+                            <h3 className="text-red-800 font-bold text-xl">Cảnh báo Y Khoa</h3>
+                        </div>
+                        <p className="text-red-900 leading-relaxed font-medium relative z-10">
+                            {product.warning || 'Không có cảnh báo đặc biệt. Tránh xa tầm tay trẻ em.'}
+                        </p>
                     </div>
                 </div>
             </div>
