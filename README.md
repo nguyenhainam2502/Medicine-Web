@@ -1,16 +1,16 @@
-# 💊 MedAI Pro — Smart Medicine Reference Platform
+#  MedAI Pro — Smart Medicine Reference Platform
 
 A web application for searching medicines, pharmaceuticals, and medical news, built with **Next.js 16** and **Supabase**.
 
-## ✨ Features
+##  Features
 
-- 🔍 **Medicine Search** — Search by name, specialty category
-- 📰 **Medical News** — Stay updated with the latest medical information
-- 👤 **User Authentication** — Sign up / Sign in (Supabase Auth)
-- 🛡️ **Admin Portal** — Manage medicines, categories, and news
-- 🤖 **AI Assistant** — Medicine suggestions based on symptoms
+-  **Medicine Search** — Search by name, specialty category
+-  **Medical News** — Stay updated with the latest medical information
+-  **User Authentication** — Sign up / Sign in (Supabase Auth)
+-  **Admin Portal** — Manage medicines, categories, and news
+-  **AI Assistant** — Medicine suggestions based on symptoms
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -20,7 +20,7 @@ A web application for searching medicines, pharmaceuticals, and medical news, bu
 | Auth | Supabase Auth |
 | Deploy | Netlify / Vercel |
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone & Install
 
@@ -40,7 +40,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-> ⚠️ Get these keys from **Supabase Dashboard → Settings → API**
+>  Get these keys from **Supabase Dashboard → Settings → API**
 
 ### 3. Initialize Database
 
@@ -62,7 +62,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Medicine-Web/
@@ -79,7 +79,7 @@ Medicine-Web/
 └── supabase/                 # Database migrations & SQL
 ```
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 | Variable | Description | Public? |
 |----------|-------------|---------|
@@ -87,6 +87,6 @@ Medicine-Web/
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (read-only) | ✅ Yes |
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key | ❌ **Secret** |
 
-## 📄 License
+##  License
 
 MIT © 2026 MedAI Pro
