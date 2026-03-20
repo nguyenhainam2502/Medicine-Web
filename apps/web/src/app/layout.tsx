@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import UserMenu from '@/components/UserMenu';
 import FloatingCart from '@/components/FloatingCart';
+import FloatingAIAssistant from '@/components/FloatingAIAssistant';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         <main className="flex-1 w-full">
           {children}
         </main>
+        <FloatingAIAssistant />
         <FloatingCart />
       </body>
     </html>

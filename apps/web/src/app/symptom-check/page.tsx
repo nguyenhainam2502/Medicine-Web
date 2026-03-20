@@ -2,8 +2,9 @@ import { supabase } from '@/lib/supabase';
 
 export const revalidate = 0;
 
-export default async function SymptomCheck({ searchParams }: { searchParams: { q?: string } }) {
-    const query = searchParams.q || '';
+export default async function SymptomCheck({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+    const resolvedSearchParams = await searchParams;
+    const query = resolvedSearchParams.q || '';
     let recommendations: any[] = [];
     let possibleDiseases: any[] = [];
 
@@ -18,11 +19,21 @@ export default async function SymptomCheck({ searchParams }: { searchParams: { q
         const { data: allDiseases } = await diseaseQuery;
 
         if (allDiseases) {
-            possibleDiseases = allDiseases.filter((d: any) => {
+            // Tính điểm khớp triệu chứng cho từng bệnh
+            const scoredDiseases = allDiseases.map((d: any) => {
                 const list = d.symptom_list?.toLowerCase() || '';
-                // Match nếu có bất kỳ keyword nào khớp
-                return keywords.some(k => list.includes(k.toLowerCase()));
+                let score = 0;
+                keywords.forEach(k => {
+                    if (list.includes(k.toLowerCase())) score += 1;
+                });
+                return { ...d, score };
             });
+
+            // Lọc ra các bệnh có điểm > 0 và sắp xếp theo điểm giảm dần
+            possibleDiseases = scoredDiseases
+                .filter(d => d.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 3); // Lấy top 3 bệnh giống nhất
         }
 
         // Lấy danh sách thuốc từ các Bệnh tìm được
@@ -36,14 +47,15 @@ export default async function SymptomCheck({ searchParams }: { searchParams: { q
                 .in('disease_id', diseaseIds);
 
             if (productLinks) {
-                // Lọc trùng lặp thuốc
+                // Lọc trùng lặp thuốc và ưu tiên thuốc của bệnh có score cao nhất
                 const uniqueProducts = new Map();
                 productLinks.forEach((link: any) => {
                     if (link.products && !uniqueProducts.has(link.products.id)) {
                         uniqueProducts.set(link.products.id, link.products);
                     }
                 });
-                recommendations = Array.from(uniqueProducts.values());
+                // Chỉ lấy tối đa 4 loại thuốc liên quan nhất để tránh dàn trải
+                recommendations = Array.from(uniqueProducts.values()).slice(0, 4);
             }
         }
     }
@@ -74,7 +86,7 @@ export default async function SymptomCheck({ searchParams }: { searchParams: { q
                         Mô tả các triệu chứng lâm sàng bạn đang gặp phải. Hệ thống sẽ phân tích bệnh lý giả định và đưa ra thuốc tham khảo.
                     </p>
 
-                    <form className="max-w-3xl mx-auto flex flex-col md:flex-row gap-4" action="/symptom-check">
+                    <form className="max-h-3xl mx-auto flex flex-col md:flex-row gap-4" method="GET" action="/symptom-check">
                         <div className="relative flex-1">
                             <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">stethoscope</span>
                             <input
